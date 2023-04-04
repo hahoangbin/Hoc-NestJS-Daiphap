@@ -1,30 +1,19 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { UserDto } from './User.dto';
 
 @Controller('users')
 export class UserController {
-  @Get()
-  getAllUsers() {
-    return [
-      {
-        name: 'Minh',
-        age: 18,
-      },
-      {
-        name: 'HA',
-        age: 22,
-      },
-      {
-        name: 'Tom',
-        age: 33,
-      },
-    ];
-  }
-
   @Post()
-  createUser() {
+  createUser(@Body() user: UserDto): UserDto {
+    console.log(user);
     return {
-      name: 'Create',
-      date: 2222,
+      userName: 'test user',
+      password: 'test password',
     };
+  }
+  @Get(':id')
+  getUserById(@Param('id') id: number) {
+    console.log(id);
+    return 'test';
   }
 }
