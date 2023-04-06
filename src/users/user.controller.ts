@@ -1,15 +1,17 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { UserDto } from './User.dto';
+import { plainToClass } from 'class-transformer';
+import { UserDto } from '../User.dto';
 
 @Controller('users')
 export class UserController {
   @Post()
   createUser(@Body() user: UserDto): UserDto {
+    user.id = 1;
+    user.createdAt = new Date();
+    user.updatedAt = new Date();
     console.log(user);
-    return {
-      userName: 'test user',
-      password: 'test password',
-    };
+
+    return UserDto.plainToClass(user);
   }
   @Get(':id')
   getUserById(@Param('id') id: number) {
