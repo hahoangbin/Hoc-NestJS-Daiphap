@@ -5,8 +5,6 @@ import { BaseDto } from '../base.dto';
 export class UserDto extends BaseDto {
   @IsNotEmpty()
   @Expose()
-  userName: string;
-
   firstName: string;
 
   lastName: string;

@@ -5,15 +5,6 @@ import { plainToInstance } from 'class-transformer';
 
 @Controller('users')
 export class UserController {
-  constructor(
-    @Inject('USER_SERVICE_ABC') private readonly userService: UserService,
-  ) {}
-
-  @Post()
-  createUser(@Body() user: UserDto): UserDto {
-    return plainToInstance(UserDto, this.userService.createUser(user));
-  }
-
   @Get(':id')
   getUserById(@Param('id') id: number) {
     console.log(id);

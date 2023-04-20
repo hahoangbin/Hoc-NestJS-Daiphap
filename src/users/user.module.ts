@@ -7,22 +7,8 @@ export interface StoreConfig {
   path: string;
 }
 
-const configFacebook = {
-  appId: 'facebook001',
-  appSecret: 'facebook001',
-};
-
 @Module({
   controllers: [UserController],
-  providers: [
-    UserService,
-    {
-      provide: 'STORE_CONFIG',
-      useValue: {
-        dir: 'store',
-        path: 'store',
-      } as StoreConfig,
-    },
-  ],
+  providers: [UserService],
 })
 export class UserModule {}
