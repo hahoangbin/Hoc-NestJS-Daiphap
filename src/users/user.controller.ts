@@ -1,13 +1,21 @@
-import { Body, Controller, Get, Inject, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe, Post } from '@nestjs/common';
 import { UserDto } from './User.dto';
-import { UserService } from './user.sevice';
-import { plainToInstance } from 'class-transformer';
+import { plainToClass } from 'class-transformer';
 
 @Controller('users')
 export class UserController {
-  @Get(':id')
-  getUserById(@Param('id') id: number) {
+  @Get('id')
+  getUserById(@Param('id', ParseIntPipe) id: number) {
     console.log(id);
     return 'test';
+  }
+
+  @Post()
+  createUser(@Body() user: UserDto): UserDto {
+    user.createdAt = new Date();
+    user.updatedAt = new Date();
+    user.id = 1;
+
+    return UserDto.plainToClass(user);
   }
 }

@@ -11,6 +11,6 @@ export abstract class BaseDto {
   updatedAt: Date;
 
   static plainToClass<T>(this: new (...args: any[]) => T, obj: T): T {
-    return plainToClass(this, obj, { excludeExtraneousValues: true }) as T;
+    return plainToClass(this, obj, { excludeExtraneousValues: true }) as T; // excludeExtraneousValues: true  (loại bỏ những trường không được Xpou ra)
   }
 }
