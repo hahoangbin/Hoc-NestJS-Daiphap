@@ -1,13 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import { StoreService } from 'src/stores/store.sevice';
 import { UserDto } from './User.dto';
 
 @Injectable()
 export class UserService {
-  createUser(user: any): any {
-    user.createdAt = new Date();
-    user.updatedAt = new Date();
-    user.id = 1;
 
-    return UserDto.plainToClass(user);
+  constructor(@Inject(StoreService) private storeService: StoreService) {}
+ 
+  create(user: UserDto): UserDto {
+    this.storeService.save(user)
+    return user
   }
 }

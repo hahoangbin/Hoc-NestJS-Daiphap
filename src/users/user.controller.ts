@@ -15,7 +15,7 @@ export class UserController {
 
   @Post()
   createUser(@Body() user: UserDto): UserDto {
-    return this.moduleRef.get('USER_GIANGTB').createUser(user);
+    return this.moduleRef.get('USER_GIANGTB').create(user);
   }
 
   @Get('id')

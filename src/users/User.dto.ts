@@ -10,6 +10,7 @@ export class UserDto extends BaseDto {
   @IsNotEmpty()
   lastName: string;
 
+  @Expose()
   @Transform(({ obj }) => obj.firstName + ' ' + obj.lastName)
   fullname: string;
 
