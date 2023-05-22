@@ -7,15 +7,15 @@ import {
   Post,
 } from '@nestjs/common';
 import { UserDto } from './User.dto';
-import { ModuleRef } from '@nestjs/core';
+import { UserService } from './user.service';
 
 @Controller('users')
 export class UserController {
-  constructor(private readonly moduleRef: ModuleRef) {}
+  constructor(private readonly userService: UserService) {}
 
   @Post()
   createUser(@Body() user: UserDto): UserDto {
-    return this.moduleRef.get('USER_GIANGTB').create(user);
+    return this.userService.create(user);
   }
 
   @Get('id')

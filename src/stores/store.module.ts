@@ -1,6 +1,5 @@
-import { DynamicModule, Module } from "@nestjs/common";
-import { StoreController } from "./store.controller";
-import { StoreService } from "./store.sevice";
+import { DynamicModule, Module } from '@nestjs/common';
+import { StoreService } from './store.service';
 
 export interface StoreConfig {
   dirname: string;
@@ -12,13 +11,14 @@ export class StoreModule {
   static register(config: StoreConfig): DynamicModule {
     return {
       module: StoreModule,
-      providers: [StoreService,
+      providers: [
+        StoreService,
         {
           provide: 'STORE_CONFIG',
-          useValue: config
-        }
+          useValue: config,
+        },
       ],
-      exports: [StoreService]
-    }
+      exports: [StoreService],
+    };
   }
 }
