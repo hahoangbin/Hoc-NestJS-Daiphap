@@ -5,7 +5,7 @@ import { StoreConfig } from './store.module';
 @Injectable()
 export class StoreService {
   constructor(
-    @Inject('STORE_CONFIG') private readonly storeConfig: StoreConfig,
+    @Inject(STORE_CONFIG) private readonly storeConfig: StoreConfig,
   ) {
     if (!fs.existsSync(this.storeConfig.dirname)) {
       fs.mkdirSync(this.storeConfig.dirname);
