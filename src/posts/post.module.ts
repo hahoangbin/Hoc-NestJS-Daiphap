@@ -5,8 +5,9 @@ import { PostService } from './post.service';
 
 @Module({
   imports: [
-    StoreModule.forFeature({
-      filename: 'post.json',
+    StoreModule.register({
+      dirname: 'store',
+      filename: 'posts.json',
     }),
   ],
   controllers: [PostController],
