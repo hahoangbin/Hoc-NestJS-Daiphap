@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import * as fs from 'fs';
-import { StoreConfig } from './store.module';
+import { STORE_CONFIG, StoreConfig } from './store.config';
 
 @Injectable()
 export class StoreService {

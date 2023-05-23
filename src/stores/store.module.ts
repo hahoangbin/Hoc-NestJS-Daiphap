@@ -1,51 +1,66 @@
 import { DynamicModule, Module } from '@nestjs/common';
 import { StoreService } from './store.service';
-import { StoreConfig, StoreFeatureConfig, StoreRootConfig } from './store.config';
+import {
+  STORE_CONFIG,
+  StoreConfig,
+  StoreFeatureConfig,
+  StoreRootConfig,
+} from './store.config';
 
-let rootStoreConfig: StoreConfig;
-
-const STORE_CONFIG = 'STORE_CONFIG';
+let rootStoreOption: StoreConfig;
 const DEFAULT_STORE_DIRNAME = 'store';
 const DEFAULT_FILE_NAME = 'data.json';
+
+@Module({
+  providers: [StoreService],
+  exports: [StoreService],
+})
+class RootStoreModule {}
 
 @Module({})
 export class StoreModule {
   static forRoot(storeConfig?: StoreRootConfig): DynamicModule {
-    rootStoreConfig = storeConfig
+    rootStoreOption = StoreModule.buildStoreOption(storeConfig);
     return {
-      module: StoreModule,
+      module: RootStoreModule,
       providers: [
-        StoreService,
         {
           provide: STORE_CONFIG,
-          useValue: storeConfig,
+          useValue: rootStoreOption,
         },
       ],
-      exports: [StoreService],
     };
   }
 
   static forFeature(storeConfig: StoreFeatureConfig): DynamicModule {
+    const token = 'STORE_SEVICE' + storeConfig.filename;
     return {
       module: StoreModule,
+      imports: [RootStoreModule],
       providers: [
-        StoreService,
         {
-          provide: STORE_CONFIG,
-          useValue: storeConfig,
+          provide: token,
+          useFactory: () => {
+            const storeOption = StoreModule.buildStoreOption({
+              ...rootStoreOption,
+              ...storeConfig,
+            });
+            return new StoreService(storeOption);
+          },
         },
       ],
-      exports: [StoreService],
+      exports: [token],
     };
   }
 
-  private static createConfig(config: StoreConfig): StoreConfig {
-    const defaultConfig: StoreConfig = {
-      dirname: DEFAULT_STORE_DIRNAME,
-      filename: DEFAULT_FILE_NAME,
-    };
-    return { ...defaultConfig, ...config };
+  private static buildStoreOption(storeOptions: StoreConfig) {
+    return Object.assign(
+      {
+        rootStoreOption,
+        storeOptions
+      }
+    );
     // hoặc
-    // return Object.assign(defaultConfig, config);
+    // return { ...rootStoreOption, ...storeOptions };
   }
 }

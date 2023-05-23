@@ -7,3 +7,5 @@ export interface StoreFeatureConfig {
 }
 
 export type StoreConfig = Partial<StoreRootConfig & StoreFeatureConfig>;
+
+export const STORE_CONFIG = 'STORE_CONFIG';
